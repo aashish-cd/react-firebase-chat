@@ -11,11 +11,9 @@ function App() {
     <div className='App'>
       <Header>
         <h1>Simple chat app build with react and firebase</h1>
-        <Button user={user}>{user ? 'Sign Out' : 'Sign In'}</Button>
+        {user && <Button user={false}>{'Sign Out'}</Button>}
       </Header>
-      <RootContainer>
-        {user ? <ChatBox /> : <SignIn user={user} />}
-      </RootContainer>
+      <RootContainer>{user ? <ChatBox /> : <SignIn />}</RootContainer>
     </div>
   );
 }
