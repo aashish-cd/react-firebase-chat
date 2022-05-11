@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import useWindowWidth from '../customHooks/useWindowWidth';
 import Message from './Message';
 
 const ChatBox = () => {
+  const dummy = useRef();
   const width = useWindowWidth();
+
+  const sendMessage = () => {
+    dummy.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -19,10 +24,11 @@ const ChatBox = () => {
         <Message messageType='sent' />
         <Message messageType='sent' />
         <Message messageType='sent' />
+        <span ref={dummy}></span>
       </Container>
       <InputContainer>
         <Input type={'text'} placeholder='Write message here...' />
-        <Button>Send</Button>
+        <Button onClick={sendMessage}>Send</Button>
       </InputContainer>
     </>
   );

@@ -6,37 +6,55 @@ const Message = ({ messageType }) => {
   return (
     <Container messageType={messageType}>
       <TextMessage messageType={messageType}>
+        {messageType === 'received' && (
+          <img
+            src='https://avatars.githubusercontent.com/u/86340075?v=4'
+            alt='profile'
+          />
+        )}
         <Text messageType={messageType}>
-          sample messag lets test for llsarksas aerae here Lorem ipsum dolor sit
-          amet consectetur, adipisicing elit. Provident modi nostrum sequi
-          impedit! Accusantium, nisi dolorum officiis magni nam atque ullam
-          repudiandae aut recusandae dignissimos dolorem hic nihil, vel commodi
-          itaque alias dicta placeat, excepturi laborum. Ut odit culpa veritatis
-          aspernatur beatae, quod dolorum nostrum ex error fugiat cupiditate
-          fugit!
+          sample message {messageType} Lorem ipsum dolor sit amet.
         </Text>
+        {messageType === 'sent' && (
+          <img
+            src='https://avatars.githubusercontent.com/u/86340075?v=4'
+            alt='profile'
+          />
+        )}
       </TextMessage>
     </Container>
   );
 };
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
 
   color: ${({ messageType: t }) => (t === 'sent' ? '#FEFEFF' : '#050505')};
   text-align: right;
 `;
 const TextMessage = styled.div`
-  width: 100%;
+  max-width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  align-self: ${({ messageType: t }) =>
+    t === 'sent' ? 'flex-end' : 'flex-start'};
   text-align: ${({ messageType: t }) => (t === 'sent' ? 'right' : 'left')};
+  img {
+    /* width: 0px; */
+    min-height: 40px;
+    max-height: 60px;
+    border-radius: 100%;
+  }
 `;
 
 const Text = styled.h1`
   background-color: ${({ messageType: t }) =>
     t === 'sent' ? '#0084FF' : '#E4E7EA'};
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 18px;
   font-size: 1rem;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;

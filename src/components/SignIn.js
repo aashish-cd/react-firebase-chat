@@ -3,10 +3,10 @@ import { Button } from '../App';
 import { IndexContext } from '../context/index.context';
 
 const SignIn = () => {
-  const { app, auth } = useContext(IndexContext);
+  const { firebase, auth } = useContext(IndexContext);
   const SignIn = () => {
-    const provider = new app.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+    // const provider = new firebase.auth.GoogleAuthProvider(auth);
+    // auth.SignInWithPopup(provider);
   };
   return (
     <div>
