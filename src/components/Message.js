@@ -6,7 +6,15 @@ const Message = ({ messageType }) => {
   return (
     <Container messageType={messageType}>
       <TextMessage messageType={messageType}>
-        {'sample message here'}
+        <Text messageType={messageType}>
+          sample messag lets test for llsarksas aerae here Lorem ipsum dolor sit
+          amet consectetur, adipisicing elit. Provident modi nostrum sequi
+          impedit! Accusantium, nisi dolorum officiis magni nam atque ullam
+          repudiandae aut recusandae dignissimos dolorem hic nihil, vel commodi
+          itaque alias dicta placeat, excepturi laborum. Ut odit culpa veritatis
+          aspernatur beatae, quod dolorum nostrum ex error fugiat cupiditate
+          fugit!
+        </Text>
       </TextMessage>
     </Container>
   );
@@ -14,17 +22,24 @@ const Message = ({ messageType }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: ${({ messageType: t }) =>
-    t === 'sent' ? 'flex-end' : 'flex-start'};
-  justify-content: center;
-  background-color: ${({ messageType: t }) =>
-    t === 'sent' ? 'blue' : 'white'};
+  width: 100%;
+
+  color: ${({ messageType: t }) => (t === 'sent' ? '#FEFEFF' : '#050505')};
+  text-align: right;
 `;
 const TextMessage = styled.div`
-  position: absolute;
+  width: 100%;
+  text-align: ${({ messageType: t }) => (t === 'sent' ? 'right' : 'left')};
+`;
 
-  left: ${({ messageType: t }) => (t === 'sent' ? '0' : 'auto')};
-  right: ${({ messageType: t }) => (t === 'sent' ? '0' : 'auto')};
+const Text = styled.h1`
+  background-color: ${({ messageType: t }) =>
+    t === 'sent' ? '#0084FF' : '#E4E7EA'};
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
 `;
 
 export default Message;

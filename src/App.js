@@ -1,52 +1,58 @@
-import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { useContext } from 'react';
 import styled from 'styled-components';
 
-import 'firebase/firestore';
-import 'firebase/auth';
-import 'firebase/analytics';
-
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 import ChatBox from './components/ChatBox';
 import SignIn from './components/SignIn';
-
-//firebase config file
-const firebaseConfig = {
-  apiKey: 'AIzaSyC5trEjWDwmHnJbdCdZHtNX1fkTK_z5YXY',
-  authDomain: 'chat-app-e5fbb.firebaseapp.com',
-  projectId: 'chat-app-e5fbb',
-  storageBucket: 'chat-app-e5fbb.appspot.com',
-  messagingSenderId: '16442086197',
-  appId: '1:16442086197:web:20daf9fc1ce9fdd2a1b27c',
-  measurementId: 'G-2VRLDWZC8N',
-};
-
-//initialize firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-const firestore = getFirestore(app);
+import { IndexContext } from './context/index.context';
 
 function App() {
-  const [user] = useAuthState(auth);
+  const { user } = useContext(IndexContext);
   return (
     <div className='App'>
-      <header>
+      <Header>
         <h1>Simple chat app build with react and firebase</h1>
-        <button>Sign out</button>
-      </header>
-      <RootContainer>{user ? <ChatBox /> : <ChatBox />}</RootContainer>
+        <Button user={user}>{user ? 'Sign Out' : 'Sign In'}</Button>
+      </Header>
+      <RootContainer>
+        {user ? <ChatBox /> : <SignIn user={user} />}
+      </RootContainer>
     </div>
   );
 }
 
 const RootContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+const Header = styled.div`
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  h1 {
+    font-size: 1.5rem;
+    color: #0084ff;
+    text-transform: uppercase;
+    text-align: center;
+  }
+`;
+export const Button = styled.button`
+  width: auto;
+  padding: 0.5rem 1rem;
+  transition: 0.5s;
+  font-size: 1.2rem;
+  background-color: ${({ user }) => (user ? '#0084ff' : '#ff0000')};
+  color: white;
+  cursor: pointer;
+  border: ${({ user }) => (user ? '#0084ff' : '#ff0000')} solid 1px;
+  border-radius: 5px;
+  &:hover {
+    transition: 0.5s;
+    background-color: white;
+    color: ${({ user }) => (user ? '#0084ff' : '#ff0000')};
+  }
 `;
 
 export default App;
