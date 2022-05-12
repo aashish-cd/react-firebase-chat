@@ -1,29 +1,48 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext, useState } from 'react';
 import styled from 'styled-components';
 import useWindowWidth from '../customHooks/useWindowWidth';
 import Message from './Message';
+import { IndexContext } from '../context/index.context';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const ChatBox = () => {
   const dummy = useRef();
   const width = useWindowWidth();
+  const { firestore, auth, firebase } = useContext(IndexContext);
 
-  const sendMessage = () => {
+  const messageRef = firestore.collection('messages');
+  const query = messageRef.orderBy('createdAt').limit(25);
+  const [messages] = useCollectionData(query, { idField: 'id' });
+
+  const [newMessage, setNewMessage] = useState('');
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    const { uid, photoURL } = auth.currentUser;
+    await messageRef.add({
+      text: newMessage,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      uid,
+      photoURL,
+    });
+    setNewMessage('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <>
       <Container width={width}>
-        <Message messageType='sent' />
-        <Message messageType='received' />
-        <Message messageType='sent' />
-        <Message messageType='received' />
-        <Message messageType='sent' />
-        <Message messageType='received' />
-        <Message messageType='received' />
-        <Message messageType='sent' />
-        <Message messageType='sent' />
-        <Message messageType='sent' />
+        {messages &&
+          messages.map((message) => (
+            <Message
+              key={message.id}
+              message={message}
+              messageType={
+                message.uid === auth.currentUser.uid ? 'sent' : 'received'
+              }
+              photoURL={message.photoURL}
+            />
+          ))}
         <span ref={dummy}></span>
       </Container>
       <InputContainer>

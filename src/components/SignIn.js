@@ -5,8 +5,8 @@ import { IndexContext } from '../context/index.context';
 const SignIn = () => {
   const { firebase, auth } = useContext(IndexContext);
   const SignIn = () => {
-    // const provider = new firebase.auth.GoogleAuthProvider(auth);
-    // auth.SignInWithPopup(provider);
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider);
   };
   return (
     <div>

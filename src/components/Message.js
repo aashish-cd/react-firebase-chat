@@ -1,20 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Message = ({ messageType }) => {
+const Message = ({ messageType, message, photoURL }) => {
   // console.log(type);
   return (
     <Container messageType={messageType}>
       <TextMessage messageType={messageType}>
-        {messageType === 'received' && (
-          <img
-            src='https://avatars.githubusercontent.com/u/86340075?v=4'
-            alt='profile'
-          />
-        )}
-        <Text messageType={messageType}>
-          sample message {messageType} Lorem ipsum dolor sit amet.
-        </Text>
+        {messageType === 'received' && <img src={photoURL} alt='profile' />}
+        <Text messageType={messageType}>{message}</Text>
         {messageType === 'sent' && (
           <img
             src='https://avatars.githubusercontent.com/u/86340075?v=4'

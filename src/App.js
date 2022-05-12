@@ -4,14 +4,21 @@ import styled from 'styled-components';
 import ChatBox from './components/ChatBox';
 import SignIn from './components/SignIn';
 import { IndexContext } from './context/index.context';
+import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/analytics';
 
 function App() {
-  const { user } = useContext(IndexContext);
+  const { user, auth } = useContext(IndexContext);
   return (
     <div className='App'>
       <Header>
         <h1>Simple chat app build with react and firebase</h1>
-        {user && <Button user={false}>{'Sign Out'}</Button>}
+        {user && (
+          <Button user={false} onClick={() => auth.signOut()}>
+            {'Sign Out'}
+          </Button>
+        )}
       </Header>
       <RootContainer>{user ? <ChatBox /> : <SignIn />}</RootContainer>
     </div>
