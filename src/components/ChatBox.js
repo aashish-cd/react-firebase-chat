@@ -46,7 +46,12 @@ const ChatBox = () => {
         <span ref={dummy}></span>
       </Container>
       <InputContainer>
-        <Input type={'text'} placeholder='Write message here...' />
+        <Input
+          type={'text'}
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder='Write message here...'
+        />
         <Button onClick={sendMessage}>Send</Button>
       </InputContainer>
     </>

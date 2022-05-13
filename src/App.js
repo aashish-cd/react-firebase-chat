@@ -4,9 +4,6 @@ import styled from 'styled-components';
 import ChatBox from './components/ChatBox';
 import SignIn from './components/SignIn';
 import { IndexContext } from './context/index.context';
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/analytics';
 
 function App() {
   const { user, auth } = useContext(IndexContext);

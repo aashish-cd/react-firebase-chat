@@ -20,8 +20,8 @@ const firebaseConfig = {
 };
 
 const firebase = initializeApp(firebaseConfig);
-const auth = getAuth(firebase);
-const analytics = getAnalytics(firebase);
+const auth = [getAuth(firebase)];
+// const analytics = getAnalytics(firebase);
 const firestore = getFirestore(firebase);
 
 export const IndexContext = createContext();
@@ -38,7 +38,6 @@ const IndexProvider = (props) => {
         user,
         auth,
         firebase,
-
         firestore,
       }}
     >
