@@ -87,13 +87,23 @@ const ChatBox = () => {
         <span ref={dummy} style={{ height: '50px' }}></span>
       </Container>
       <InputContainer>
-        <Input
-          type={'text'}
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder='Write message here...'
-        />
-        <Button onClick={sendMessage}>Send</Button>
+        <form
+          onSubmit={sendMessage}
+          style={{
+            display: 'flex',
+            width: '90%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Input
+            type={'text'}
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder='Write message here...'
+          />
+          <Button type='submit'>Send</Button>
+        </form>
       </InputContainer>
     </>
   );
@@ -113,6 +123,7 @@ const InputContainer = styled.div`
   display: flex;
   width: 90%;
   justify-content: center;
+  background-color: white;
   align-items: center;
   position: fixed;
   bottom: 0;
