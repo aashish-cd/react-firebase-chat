@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import useWindowWidth from '../customHooks/useWindowWidth';
 
 const Message = ({ messageType, message, photoURL }) => {
-  // console.log(type);
+  const width = useWindowWidth();
   return (
     <Container messageType={messageType}>
-      <TextMessage messageType={messageType}>
+      <TextMessage messageType={messageType} width={width}>
         {messageType === 'received' && <img src={photoURL} alt='profile' />}
         <Text messageType={messageType}>{message}</Text>
         {messageType === 'sent' && <img src={photoURL} alt={'profile'} />}
@@ -17,12 +18,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-
+  margin: -5px 0;
   color: ${({ messageType: t }) => (t === 'sent' ? '#FEFEFF' : '#050505')};
   text-align: right;
 `;
 const TextMessage = styled.div`
-  max-width: 70%;
+  max-width: ${({ width: w }) => (w > 768 ? '70%' : w > 600 ? '85%' : '80%')};
   display: flex;
   justify-content: center;
   align-items: center;

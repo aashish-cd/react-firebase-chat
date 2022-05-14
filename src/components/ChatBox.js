@@ -45,13 +45,7 @@ const ChatBox = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser;
-    console.log({
-      text: newMessage,
-      createdAt: serverTimestamp(),
-      uid,
-      photoURL,
-    });
-    console.log(messages);
+
     try {
       await addDoc(messageRef, {
         text: newMessage,
