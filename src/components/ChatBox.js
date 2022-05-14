@@ -1,38 +1,58 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import useWindowWidth from '../customHooks/useWindowWidth';
 import Message from './Message';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useFirebase } from '../context/index.context';
 import app, { firestore } from '../firebase';
 import {
   collection,
   query,
   serverTimestamp,
-  setDoc,
   orderBy,
   limit,
   doc,
   onSnapshot,
+  addDoc,
 } from 'firebase/firestore';
 
 const ChatBox = () => {
   const dummy = useRef();
   const width = useWindowWidth();
   const { auth } = useFirebase();
+  const [newMessage, setNewMessage] = useState('');
 
   const messageRef = collection(firestore, 'messages');
   const queryData = query(messageRef, orderBy('createdAt'), limit(25));
-  const [messages] = useCollectionData(queryData, { idField: 'id' });
-  console.log(messages);
-  // const [messages, setMessages] = useState('');
-  const [newMessage, setNewMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+  const fetchMessages = async () => {
+    onSnapshot(queryData, (ss) => {
+      const allMessages = [];
+      ss.forEach((each) => {
+        allMessages.push(each.data());
+      });
+      setMessages(
+        allMessages.map((message) => ({
+          uid: message.uid,
+          photoURL: message.photoURL,
+          text: message.text,
+          id: doc.id,
+        }))
+      );
+    });
+  };
 
   const sendMessage = async (e) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser;
+    console.log({
+      text: newMessage,
+      createdAt: serverTimestamp(),
+      uid,
+      photoURL,
+    });
+    console.log(messages);
     try {
-      await setDoc(messageRef, {
+      await addDoc(messageRef, {
         text: newMessage,
         createdAt: serverTimestamp(),
         uid,
@@ -45,6 +65,9 @@ const ChatBox = () => {
     setNewMessage('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
   };
+  useEffect(() => {
+    fetchMessages();
+  }, []);
 
   return (
     <>

@@ -8,12 +8,7 @@ const Message = ({ messageType, message, photoURL }) => {
       <TextMessage messageType={messageType}>
         {messageType === 'received' && <img src={photoURL} alt='profile' />}
         <Text messageType={messageType}>{message}</Text>
-        {messageType === 'sent' && (
-          <img
-            src='https://avatars.githubusercontent.com/u/86340075?v=4'
-            alt='profile'
-          />
-        )}
+        {messageType === 'sent' && <img src={photoURL} alt={'profile'} />}
       </TextMessage>
     </Container>
   );
@@ -37,8 +32,8 @@ const TextMessage = styled.div`
   text-align: ${({ messageType: t }) => (t === 'sent' ? 'right' : 'left')};
   img {
     /* width: 0px; */
-    min-height: 40px;
-    max-height: 60px;
+    height: 40px;
+    margin: 0 0.5rem;
     border-radius: 100%;
   }
 `;
