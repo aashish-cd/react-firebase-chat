@@ -38,6 +38,7 @@ const ChatBox = () => {
           id: doc.id,
         }))
       );
+      dummy.current.scrollIntoView({ behavior: 'smooth' });
     });
   };
 
