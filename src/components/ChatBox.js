@@ -21,11 +21,11 @@ const ChatBox = () => {
   const width = useWindowWidth();
   const { auth } = useFirebase();
 
-  const messageRef = doc(firestore, 'messages');
+  const messageRef = collection(firestore, 'messages');
   const queryData = query(messageRef, orderBy('createdAt'), limit(25));
-  const [messages] = onSnapshot(doc(firestore, 'messages'), queryData);
+  const [messages] = useCollectionData(queryData, { idField: 'id' });
   console.log(messages);
-
+  // const [messages, setMessages] = useState('');
   const [newMessage, setNewMessage] = useState('');
 
   const sendMessage = async (e) => {
