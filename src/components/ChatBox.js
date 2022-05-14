@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import useWindowWidth from '../customHooks/useWindowWidth';
 import Message from './Message';
 import { useFirebase } from '../context/index.context';
-import app, { firestore } from '../firebase';
+import { firestore } from '../firebase';
 import {
   collection,
   query,
@@ -67,6 +67,7 @@ const ChatBox = () => {
   };
   useEffect(() => {
     fetchMessages();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -102,12 +103,6 @@ const ChatBox = () => {
     </>
   );
 };
-
-const MainContainer = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  width: 100%;
-`;
 
 const Container = styled.div`
   display: flex;

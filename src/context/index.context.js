@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import app, { auth, signInWithGoogle, firestore } from '../firebase';
