@@ -1,13 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button } from '../App';
-import { IndexContext } from '../context/index.context';
+import { useFirebase } from '../context/index.context';
 
 const SignIn = () => {
-  const { firebase, auth } = useContext(IndexContext);
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  };
+  const { signInWithGoogle } = useFirebase();
+
   return (
     <div>
       <Button onClick={signInWithGoogle} user={true}>

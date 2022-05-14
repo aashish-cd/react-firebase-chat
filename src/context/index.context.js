@@ -1,46 +1,26 @@
-import React, { createContext, useState } from 'react';
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/analytics';
-
+import React, { createContext, useContext, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getAnalytics } from 'firebase/analytics';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyC5trEjWDwmHnJbdCdZHtNX1fkTK_z5YXY',
-  authDomain: 'chat-app-e5fbb.firebaseapp.com',
-  projectId: 'chat-app-e5fbb',
-  storageBucket: 'chat-app-e5fbb.appspot.com',
-  messagingSenderId: '16442086197',
-  appId: '1:16442086197:web:20daf9fc1ce9fdd2a1b27c',
-  measurementId: 'G-2VRLDWZC8N',
-};
-
-const firebase = initializeApp(firebaseConfig);
-const auth = [getAuth(firebase)];
-// const analytics = getAnalytics(firebase);
-const firestore = getFirestore(firebase);
+import app, { auth, signInWithGoogle, firestore } from '../firebase';
 
 export const IndexContext = createContext();
 
-const IndexProvider = (props) => {
-  const [loading, setLoading] = useState(false);
+export const useFirebase = () => {
+  return useContext(IndexContext);
+};
 
+const IndexProvider = (props) => {
   const [user] = useAuthState(auth);
+
+  const value = {
+    user,
+    auth,
+    firestore,
+    app,
+    signInWithGoogle,
+  };
   return (
-    <IndexContext.Provider
-      value={{
-        loading,
-        setLoading,
-        user,
-        auth,
-        firebase,
-        firestore,
-      }}
-    >
+    <IndexContext.Provider value={value}>
       {props.children}
     </IndexContext.Provider>
   );

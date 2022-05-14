@@ -1,30 +1,47 @@
-import React, { useRef, useContext, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import useWindowWidth from '../customHooks/useWindowWidth';
 import Message from './Message';
-import { IndexContext } from '../context/index.context';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useFirebase } from '../context/index.context';
+import app, { firestore } from '../firebase';
+import {
+  collection,
+  query,
+  serverTimestamp,
+  setDoc,
+  orderBy,
+  limit,
+  doc,
+  onSnapshot,
+} from 'firebase/firestore';
 
 const ChatBox = () => {
   const dummy = useRef();
   const width = useWindowWidth();
-  const { firestore, auth, firebase } = useContext(IndexContext);
+  const { auth } = useFirebase();
 
-  const messageRef = firestore.collection('messages');
-  const query = messageRef.orderBy('createdAt').limit(25);
-  const [messages] = useCollectionData(query, { idField: 'id' });
+  const messageRef = doc(firestore, 'messages');
+  const queryData = query(messageRef, orderBy('createdAt'), limit(25));
+  const [messages] = onSnapshot(doc(firestore, 'messages'), queryData);
+  console.log(messages);
 
   const [newMessage, setNewMessage] = useState('');
 
   const sendMessage = async (e) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser;
-    await messageRef.add({
-      text: newMessage,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid,
-      photoURL,
-    });
+    try {
+      await setDoc(messageRef, {
+        text: newMessage,
+        createdAt: serverTimestamp(),
+        uid,
+        photoURL,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     setNewMessage('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
   };
@@ -36,11 +53,16 @@ const ChatBox = () => {
           messages.map((message) => (
             <Message
               key={message.id}
-              message={message}
+              message={message.text}
               messageType={
-                message.uid === auth.currentUser.uid ? 'sent' : 'received'
+                message.uid === auth.currentUser.uid
+                  ? 'sent'
+                  : 'received' || 'sent'
               }
-              photoURL={message.photoURL}
+              photoURL={
+                message.photoURL ||
+                'https://avatars.githubusercontent.com/u/86340075?s=40&v=4'
+              }
             />
           ))}
         <span ref={dummy}></span>
