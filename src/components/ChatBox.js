@@ -84,7 +84,7 @@ const ChatBox = () => {
               }
             />
           ))}
-        <span ref={dummy}></span>
+        <span ref={dummy} style={{ height: '50px' }}></span>
       </Container>
       <InputContainer>
         <Input
@@ -114,6 +114,8 @@ const InputContainer = styled.div`
   width: 90%;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  bottom: 0;
 `;
 const Input = styled.input`
   width: 80%;
