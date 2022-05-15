@@ -63,15 +63,18 @@ const ChatBox = () => {
   useEffect(() => {
     fetchMessages();
     // eslint-disable-next-line
+    setTimeout(() => {
+      dummy.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 1000);
   }, []);
 
   return (
     <>
       <Container width={width}>
         {messages &&
-          messages.map((message) => (
+          messages.map((message, index) => (
             <Message
-              key={message.id}
+              key={index}
               message={message.text}
               messageType={
                 message.uid === auth.currentUser.uid
