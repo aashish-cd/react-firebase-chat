@@ -62,10 +62,10 @@ const ChatBox = () => {
   };
   useEffect(() => {
     fetchMessages();
-    // eslint-disable-next-line
     setTimeout(() => {
       dummy.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 1000);
+    }, 1500);
+    // eslint-disable-next-line
   }, []);
 
   return (
